@@ -50,8 +50,7 @@ local function getSubtitleTextFromFolder(soundFileName)
   textFileName = string.format("%s.txt",string.sub(soundFileName, 1, -5))
   textFilePath = string.format("%s\\%s",VOICEFOLDER_PATH,textFileName)
   --なんかファイルパスに日本語が混ざってると文字コードがどうこうでエラるので、ライブラリの力を使ってどうにかする
-  --https://github.com/AoiSaya/FlashAir_UTF8toSJIS
-  --でふぉのrequireの読み込み先パス→C:\Users\{ユーザ名}\AppData\Roaming\Blackmagic Design\DaVinci Resolve\Support\Fusion\Modules\Lua
+  --https://github.com/AoiSaya/FlashAir_UTF8toSJIS          
 
   textFilePathConverted = UTF8toSJIS:UTF8_to_SJIS_str_cnv(fht, textFilePath)
 
@@ -65,7 +64,7 @@ local function getSubtitleTextFromFolder(soundFileName)
 end
 
 local function ConvertToTextFromClip(number,item)
-  -- number: 何番目のアイテムか、いらないと思ってたけど必要って事に気づいて後付けマン
+  -- number: 何番目のアイテムか、いらないと思ってたけど必要って事に気づいて後付け
   -- item: タイムライン上の音 
   frameText = ""
   subtitleText = ""
@@ -84,7 +83,7 @@ end
 
 local function TimelineToText(project,index)
   -- indx: 字幕化したいAudioタイムラインのindex
-  -- return : srtファイルの中身とかそんなレベルで考えてる・・・
+  -- return : srtファイルの中身とかそんなレベル
 
   timeline = project:GetCurrentTimeline()
   items = timeline:GetItemsInTrack("audio", index)
@@ -129,8 +128,6 @@ local function CreateLuaUsecase()
   srtfile = CreateSrtFromText(srttext)
   MoveSrt2MediaPool(srtfile)
 
-  --該当のタイムライン読んで、ファイルごとの開始地点終了地点を読んでテキスト化したのを一回返す
-  -- ↑のをもとにsrtファイルを出力
 end
 
 CreateLuaUsecase()
