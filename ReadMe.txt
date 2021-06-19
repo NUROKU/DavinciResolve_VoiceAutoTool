@@ -11,9 +11,6 @@ Davinci Resolveで
 ・VoiceAutoToolフォルダをしたのフォルダにそのまま置く
 　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Scripts\Comp
 
-・VoiceAutoTool_Configフォルダをしたのフォルダにそのまま置く
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config
-
 ・Luaフォルダをしたのフォルダにそのまま置く
 　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules
 
@@ -59,14 +56,18 @@ Davinci Resolveで
 ----------------------------------------------------------------
 ☆トラブルシューティング的なQ＆A
 Q. いちいちUI上でスクリプト指定するのめんどうくさい
-A. Resolveにはショートカット登録機能があるので、それを使えば1操作で簡単にスクリプトを実行できます。
+A. Resolveにはショートカット登録機能があるので、それを使えば1操作で簡単にスクリプトを実行できます
 　 （完全自動化はできたらする。できたら）
 
 Q.字幕のテキストが「nil」になる
 A.指定のフォルダに「音声をテキスト化したテキストファイル」が無かった、もしくは名前が違う
 
+Q.Configが読み込めないって言われてる気がする
+A.最悪↓にあるConfigを消してOpenConfig実行してください、リフレッシュされるはずです
+　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config
+
 Q.なんかうごかない
-A.「ワークスペース→コンソール」を開いた状態でスクリプトを動かすとエラーメッセージが出力されるはずです。
+A.「ワークスペース→コンソール」を開いた状態でスクリプトを動かすとエラーメッセージが出力されるはずです
 　そのエラーメッセージを作者宛に連絡くれるとうれしいです
 
 Q.エラーだのバグだの要望だの連絡したい
