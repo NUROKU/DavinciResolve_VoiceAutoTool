@@ -73,8 +73,8 @@ local function ConvertToTextFromClip(number,item)
   local startTime = ConvertFrameToTime(item:GetStart())
   local endTime = ConvertFrameToTime(item:GetEnd())
 
-  frameText = string.format("%s --> %s", startTime,endTime)
-  subtitleText = getSubtitleTextFromFolder(item:GetName())
+  local frameText = string.format("%s --> %s", startTime,endTime)
+  local subtitleText = getSubtitleTextFromFolder(item:GetName())
   
   local ret =  string.format("%s\n%s\n%s\n\n", number,frameText,subtitleText)
   return ret
@@ -99,7 +99,6 @@ end
 
 local function CreateSrtFromText(text)
   --return: 出力されたsrtファイルのパス
-  print(text)
   local outputFilePath = OUTPUT_PATH .. [[\srt_]] .. os.date("%Y%m%d_%H%M%S") .. ".srt"
   --↑例 srt_20212525010101.srt 
   local f = io.open(outputFilePath, "w")
@@ -118,21 +117,25 @@ local function MoveSrt2MediaPool(srtfile)
   local rootBin = mediaPool:GetRootFolder()
   mediaPool:SetCurrentFolder(rootBin)
 
-  print(srtfile)
+  print("output to " .. srtfile)
   mediaPool:ImportMedia(srtfile)
 end
 
-local function CreateLuaUsecase()
-
+local function CreateSrtUsecase()
+  print("[Debug]CreateSrt_Start-----------")
   resolve = Resolve()
   projectManager = resolve:GetProjectManager()
   project = projectManager:GetCurrentProject()
 
+  print("[Debug]Convert To srt Text")
   local srttext = TimelineToText(project,AUDIO_INDEX)
 
+  print("[Debug]Output srt File")
   local srtfile = CreateSrtFromText(srttext)
-  MoveSrt2MediaPool(srtfile)
 
+  print("[Debug]Pull To Mediapool")
+  MoveSrt2MediaPool(srtfile)
+  print("[Debug]CreateSrt_End-----------")
 end
 
-CreateLuaUsecase()
+CreateSrtUsecase()
