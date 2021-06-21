@@ -76,10 +76,10 @@ end
 
 local function MoveSoundUsecase()
   print("[Debug]MoveSound_Start-----------")
-  local resolve = Resolve()
-  local projectManager = resolve:GetProjectManager()
-  local project = projectManager:GetCurrentProject() 
-  local mediaPool = project:GetMediaPool()
+  resolve = Resolve()
+  projectManager = resolve:GetProjectManager()
+  project = projectManager:GetCurrentProject() 
+  mediaPool = project:GetMediaPool()
 
   GotoVBin(mediaPool)
   PullVoiceToVBin(mediaPool)

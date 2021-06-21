@@ -23,14 +23,13 @@ FHT_PATH = CONFIG["FHT_PATH"]
 AUDIO_INDEX = CONFIG["AUDIO_INDEX"]
 
 UTF8toSJIS = require("UTF8toSJIS")
-FHT_PATH = io.open(FHT_PATH , "r")
-
+FHT = io.open(FHT_PATH , "r")
 
 local function getFrameRate()
   -- 字幕表示の時間計算にフレームレートが必要なので、ちゃんとプロジェクトから持ってきて返す
-  local resolve = Resolve()
-  local projectManager = resolve:GetProjectManager()
-  local proj = projectManager:GetCurrentProject()
+  resolve = Resolve()
+  projectManager = resolve:GetProjectManager()
+  proj = projectManager:GetCurrentProject()
   local frame_rate = proj:GetSetting("timelineFrameRate")
   return frame_rate
 end
@@ -56,9 +55,8 @@ local function getSubtitleTextFromFolder(soundFileName)
   local textFilePath = string.format("%s\\%s",VOICEFOLDER_PATH,textFileName)
   --なんかファイルパスに日本語が混ざってると文字コードがどうこうでエラるので、ライブラリの力を使ってどうにかする
   --https://github.com/AoiSaya/FlashAir_UTF8toSJIS          
-
-  local textFilePathConverted = UTF8toSJIS:UTF8_to_SJIS_str_cnv(fht, textFilePath)
-  local  filein = io.open(textFilePathConverted, "r")
+  local textFilePathConverted = UTF8toSJIS:UTF8_to_SJIS_str_cnv(FHT, textFilePath)
+  local filein = io.open(textFilePathConverted, "r")
   
   io.input(filein)
   local text = io.read()
@@ -126,9 +124,9 @@ end
 
 local function CreateLuaUsecase()
 
-  local resolve = Resolve()
-  local projectManager = resolve:GetProjectManager()
-  local project = projectManager:GetCurrentProject()
+  resolve = Resolve()
+  projectManager = resolve:GetProjectManager()
+  project = projectManager:GetCurrentProject()
 
   local srttext = TimelineToText(project,AUDIO_INDEX)
 
