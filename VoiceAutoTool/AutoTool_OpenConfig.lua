@@ -1,3 +1,10 @@
+---@diagnostic disable: lowercase-global
+---↑仮にまじめなもの作るとしたらこのdiagnosticは消す
+
+---@diagnostic disable: undefined-global
+---↑fuとかbmdとか認識してくれないからしかたない
+
+
 
 --どーせ固定値だからいいと思う
 CONFIG_FILE_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config\VoiceAutoTool_Config\AutoTool_Config.lua]]
@@ -77,4 +84,4 @@ disp:RunLoop()
 win:Hide()
 
 --http://www.steakunderwater.com/wesuckless/viewtopic.php?p=36549&t=1411
---↑ui云々のリファレンス探したんだけど、ここにしか情報が見当たらなかった・・・
+--↑ui云々のリファレンス探したんだけど、ここにしか情報が見当たらない
