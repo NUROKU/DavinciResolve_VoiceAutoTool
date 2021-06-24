@@ -41,13 +41,18 @@ local function PullVoiceToVBin(mediaPool)
   -- 特定フォルダ上の音声ファイル群をメディアプールに引っ張ってくる]
   local clips = mediaPool:ImportMedia(VOICEFOLDER_PATH)
   -- ここで音声ファイルだけ引っ張る仕様にしようと思ったけど面倒くさくなった、どーせ後でフィルタしてるし
+  return clips
 end
 
 
 local function isSoundRoll(clip)
   --clipが音声ファイルかどうかの確認
-  local meta = clip:GetMetadata()
+  if type(clip) ~= "userdata" then 
+    return false
+  end
+
   local ret = false
+  local meta = clip:GetMetadata()
   if meta ~= nil then
     for a,b in pairs(meta) do
       --Sound Roll #:	hogehoge.wav
@@ -60,15 +65,49 @@ local function isSoundRoll(clip)
   return ret
 end
 
-local function PutVoiceToTimeline(mediaPool)
-  --タイムラインにメディアプール上の音声ファイルを置くだけ
-  local voiceBin = GotoVBin(mediaPool)
+local function FilterClipsForPuttingTimeline(clips)
+  --clipsとvoiceBin配下のclipを比較して追加分だけ返すみたいなやつ
+  --ついでに音声ファイルかどうかのフィルタもやってる。
 
-  local clips = voiceBin:GetClips()
+  if #clips == 0 then
+    return nil
+  end
+
+  --テーブルを比較できる標準ライブラリが欲しかったんだけど見当たらなかったから泥臭いことするよ
+  local voiceBin = GotoVBin(mediaPool)
+  local voiceBinClips = voiceBin:GetClipList()
+  
+  for index in pairs(clips) do
+    local clip = clips[index]
+    if isSoundRoll(clip) == false then
+      break
+    end
+
+    for voiceBinindex in pairs(voiceBinClips) do
+      local voiceBinClip = voiceBinClips[voiceBinindex]
+      if clip:GetName() == voiceBinClip:GetName() then
+        table.remove(clips,index)
+        break
+      end
+    end
+  end
+
+  return clips
+end
+
+
+
+local function PutVoiceToTimeline(mediaPool,clips)
+  --タイムラインにメディアプール上の音声ファイルを置くだけ
+  if clips == nil then
+    print("No Sound to Put Timeline !!!!!!!!!!")
+    return 0
+  end
 
   for clipIndex in pairs(clips) do
     local clip = clips[clipIndex]
     if isSoundRoll(clip) then
+      print("Put Sound : ",clip:GetName())
       mediaPool:AppendToTimeline(clip)
     end
   end
@@ -82,12 +121,13 @@ local function MoveSoundUsecase()
   mediaPool = project:GetMediaPool()
 
   GotoVBin(mediaPool)
-  PullVoiceToVBin(mediaPool)
+  local clips = PullVoiceToVBin(mediaPool)
   print("[Debug]Sound pulled from folder")
 
-  local rootBin = mediaPool:GetRootFolder()
-  PutVoiceToTimeline(mediaPool)
+  local filteredclips = FilterClipsForPuttingTimeline(clips)
   print("[Debug]Sound put to timeline")
+  PutVoiceToTimeline(mediaPool,filteredclips)
+
   print("[Debug]MoveSound End---------------")
 end
 
