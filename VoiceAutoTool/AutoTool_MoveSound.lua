@@ -13,6 +13,9 @@ VOICEBIN_NAME = CONFIG["VOICEBIN_NAME"]
 FHT_PATH = CONFIG["FHT_PATH"]
 AUDIO_INDEX = CONFIG["AUDIO_INDEX"]
 
+UTF8toSJIS = require("UTF8toSJIS")
+FHT = io.open(FHT_PATH , "r")
+
 
 local function GotoVBin(mediaPool)
   --CurrentBinをVoiceBinにしたうえでVoiceBinを返す
@@ -37,61 +40,57 @@ local function GotoVBin(mediaPool)
   return voiceBin
 end
 
-local function PullVoiceToVBin(mediaPool)
-  -- 特定フォルダ上の音声ファイル群をメディアプールに引っ張ってくる]
-  local clips = mediaPool:ImportMedia(VOICEFOLDER_PATH)
-  -- ここで音声ファイルだけ引っ張る仕様にしようと思ったけど面倒くさくなった、どーせ後でフィルタしてるし
-  return clips
-end
 
+local function isNotExistVoiceInVBin(filePath,mediaPool)
+  --VBinに該当のファイルが無かったらTrue(正常みたいな意味合い)を返す
+  --filePath: 確認するファイル、絶対パスで来る想定
 
-local function isSoundRoll(clip)
-  --clipが音声ファイルかどうかの確認
-  if type(clip) ~= "userdata" then 
-    return false
-  end
-
-  local ret = false
-  local meta = clip:GetMetadata()
-  if meta ~= nil then
-    for a,b in pairs(meta) do
-      --Sound Roll #:	hogehoge.wav
-      if a == "Sound Roll #" then
-        ret = true
-      end
-    end
-  end
-
-  return ret
-end
-
-local function FilterClipsForPuttingTimeline(clips)
-  --clipsとvoiceBin配下のclipを比較して追加分だけ返すみたいなやつ
-  --ついでに音声ファイルかどうかのフィルタもやってる。
-
-  if #clips == 0 then
-    return nil
-  end
-
-  --テーブルを比較できる標準ライブラリが欲しかったんだけど見当たらなかったから泥臭いことするよ
-  local voiceBin = GotoVBin(mediaPool)
+  voiceBin = GotoVBin(mediaPool)
   local voiceBinClips = voiceBin:GetClipList()
-  
-  for index in pairs(clips) do
-    local clip = clips[index]
-    if isSoundRoll(clip) == false then
-      break
-    end
+  if #voiceBinClips == 0 then
+    return true
+  end
 
-    for voiceBinindex in pairs(voiceBinClips) do
-      local voiceBinClip = voiceBinClips[voiceBinindex]
-      if clip:GetName() == voiceBinClip:GetName() then
-        table.remove(clips,index)
-        break
+  for voiceBinindex in pairs(voiceBinClips) do
+    local voiceBinClip = voiceBinClips[voiceBinindex]
+    if type(voiceBinClip) ~= "userdata" then 
+      --なにか
+    else
+      local voiceBinClipPath = string.format("%s\\%s",VOICEFOLDER_PATH,voiceBinClip:GetName())
+
+      if voiceBinClipPath == filePath then
+        return false
       end
     end
   end
 
+  return true
+end
+
+
+local function PullVoiceToVBin(mediaStorage,mediaPool)
+  -- 特定フォルダ上の音声ファイル群をメディアプールに引っ張ってくる
+
+  -- ただし、VoiceBinにあるものは持ってない
+  -- MediaStoregeのGetFileList(folderPath)で一覧もってくる
+  local fileList = mediaStorage:GetFileList(VOICEFOLDER_PATH)
+  local clips = {}
+  for i = 1, #fileList do
+
+    --ここで音声フィルタと既に存在してるファイルを取得しない処理
+    local isSoundFile = string.sub(fileList[i], -4) == ".wav"
+    local isAlreadyExist = isNotExistVoiceInVBin(fileList[i],mediaPool)
+
+    if isSoundFile and isAlreadyExist then
+      local filetable = mediaPool:ImportMedia(fileList[i])
+
+      --Luaはテーブルの添え字が1から始まるらしい、きにくわない
+      local addingFile = filetable[1]
+      table.insert(clips, addingFile)
+    end
+  end
+
+  print("Voice ",#clips,"file Pulled")
   return clips
 end
 
@@ -106,27 +105,27 @@ local function PutVoiceToTimeline(mediaPool,clips)
 
   for clipIndex in pairs(clips) do
     local clip = clips[clipIndex]
-    if isSoundRoll(clip) then
-      print("Put Sound : ",clip:GetName())
-      mediaPool:AppendToTimeline(clip)
-    end
+    print("Put Sound : ",clip:GetName())
+    mediaPool:AppendToTimeline(clip)
   end
+
 end
 
 local function MoveSoundUsecase()
-  print("[Debug]MoveSound_Start-----------")
+  print("[Debug]MoveSound_Start-------------")
   resolve = Resolve()
   projectManager = resolve:GetProjectManager()
   project = projectManager:GetCurrentProject() 
   mediaPool = project:GetMediaPool()
+  mediaStorage = resolve:GetMediaStorage()
 
   GotoVBin(mediaPool)
-  local clips = PullVoiceToVBin(mediaPool)
+  local clips = PullVoiceToVBin(mediaStorage,mediaPool)
   print("[Debug]Sound pulled from folder")
 
-  local filteredclips = FilterClipsForPuttingTimeline(clips)
+  --local filteredclips = FilterClipsForPuttingTimeline(clips)
   print("[Debug]Sound put to timeline")
-  PutVoiceToTimeline(mediaPool,filteredclips)
+  PutVoiceToTimeline(mediaPool,clips)
 
   print("[Debug]MoveSound End---------------")
 end
