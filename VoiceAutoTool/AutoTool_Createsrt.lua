@@ -59,7 +59,7 @@ local function getSubtitleTextFromFolder(soundFileName)
   local filein = io.open(textFilePathConverted, "r")
   
   io.input(filein)
-  local text = io.read()
+  local text = io.read("*a")
 
   return text
 end
