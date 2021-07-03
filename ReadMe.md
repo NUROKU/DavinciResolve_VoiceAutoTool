@@ -39,7 +39,7 @@ Davinci Resolveで適当なプロジェクトを開いて、上のタブから<b
 
 
 ---------------------------------------------------------------
-## 手順：AutoTool_CreateSrt
+## 実行手順：AutoTool_CreateSrt
 
 1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_Config.lua**」を選択
 1. 開かれたウィンドウの「INDEX_AUDIO」に、字幕化したい音声ファイルが置かれているタイムラインのAudioの番号を指定<br>
