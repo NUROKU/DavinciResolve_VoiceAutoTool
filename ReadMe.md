@@ -31,9 +31,9 @@ Davinci Resolveで適当なプロジェクトを開いて、上のタブから<b
 指定されたフォルダから音声ファイルををDavinciResolveに持ってきてタイムラインに置くスクリプト
 
 
-1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_Config.lua**」を選択
+1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_Config**」を選択
 1. 開かれたウィンドウの「VOICEFOLDER_PATH」に、移動したい音声ファイルがおかれているフォルダを入力
-1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_MoveSound.lua**」を実行
+1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_MoveSound**」を実行
 
 上記手順を行うことにより、音声がタイムラインに自動的に置かれるはずです
 
@@ -41,10 +41,10 @@ Davinci Resolveで適当なプロジェクトを開いて、上のタブから<b
 ---------------------------------------------------------------
 ## 実行手順：AutoTool_CreateSrt
 
-1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_Config.lua**」を選択
+1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_Config**」を選択
 1. 開かれたウィンドウの「INDEX_AUDIO」に、字幕化したい音声ファイルが置かれているタイムラインのAudioの番号を指定<br>
 (A1だと1,A2だと2...とりあえず一番上に置かれているものを字幕化したいなら1でOK)
-1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_CreateSrt.lua**」を実行
+1. 上のタブから「ワークスペース→Script→Comp→VoiceAutoTool→**AutoTool_CreateSrt**」を実行
 1. メディアプールに出力されたsrtファイル(srt_9821397みたいな名前)を、タイムラインにドラッグ＆ドロップ
 
 上記手順を行うことにより、音声に合わせた字幕が良い感じに置けるはずです
