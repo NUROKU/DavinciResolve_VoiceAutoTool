@@ -53,9 +53,7 @@ local function isNotExistVoiceInVBin(filePath,mediaPool)
 
   for voiceBinindex in pairs(voiceBinClips) do
     local voiceBinClip = voiceBinClips[voiceBinindex]
-    if type(voiceBinClip) ~= "userdata" then 
-      --なにか
-    else
+    if type(voiceBinClip) == "userdata" then 
       local voiceBinClipPath = string.format("%s\\%s",VOICEFOLDER_PATH,voiceBinClip:GetName())
 
       if voiceBinClipPath == filePath then
@@ -94,10 +92,17 @@ local function PullVoiceToVBin(mediaStorage,mediaPool)
   return clips
 end
 
-
-
-local function PutVoiceToTimeline(mediaPool,clips)
+local function PutVoiceToTimeline(project, mediaPool,clips)
   --タイムラインにメディアプール上の音声ファイルを置くだけ
+
+  --タイムラインが無い時には新たに作成しておく
+  if project:GetCurrentTimeline() == nil then
+    print("Create Empty Timeline")
+    mediaPool:CreateEmptyTimeline("Timeline_1")
+  end
+  -- CreateEmptyTimeline("Timeline_1")
+  
+
   if clips == nil then
     print("No Sound to Put Timeline !!!!!!!!!!")
     return 0
@@ -125,7 +130,7 @@ local function MoveSoundUsecase()
 
   --local filteredclips = FilterClipsForPuttingTimeline(clips)
   print("[Debug]Sound put to timeline")
-  PutVoiceToTimeline(mediaPool,clips)
+  PutVoiceToTimeline(project,mediaPool,clips)
 
   print("[Debug]MoveSound End---------------")
 end
