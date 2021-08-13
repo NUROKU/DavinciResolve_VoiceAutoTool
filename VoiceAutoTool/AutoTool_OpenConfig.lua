@@ -18,14 +18,18 @@ FHT_PATH=[[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\U
 --Config設定
 config_isexist=io.open(CONFIG_FILE_PATH,"r")
 if config_isexist==nil then 
-    io.open(CONFIG_FILE_PATH,"w")
+  io.open(CONFIG_FILE_PATH,"w")
+  config = { 
+    VOICEFOLDER_PATH = [[C:\hogehoge]],
+    AUDIO_INDEX = 1,
+    VOICEBIN_NAME = [[VoiceAutoTool]],
+    FHT_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]]
+  }
+  io.close()
+else
+--Configファイルから値読み込み、実際は外部の.Lua実行結果の返り値を持ってきてるだけ
+  config = dofile(CONFIG_FILE_PATH)
 end
-io.close() 
-
---configファイルから値読み込み、実際は外部の.Lua実行結果の返り値を持ってきてるだけ
-config = dofile(CONFIG_FILE_PATH)
-
-
 --uiのうんぬん
 ui = fu.UIManager
 disp = bmd.UIDispatcher(ui)
