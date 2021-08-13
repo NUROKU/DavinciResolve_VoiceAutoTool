@@ -20,7 +20,7 @@ config_isexist=io.open(CONFIG_FILE_PATH,"r")
 if config_isexist==nil then 
     io.open(CONFIG_FILE_PATH,"w")
 end
-io.close() 
+io.close()
 
 --configファイルから値読み込み、実際は外部の.Lua実行結果の返り値を持ってきてるだけ
 config = dofile(CONFIG_FILE_PATH)
@@ -30,16 +30,16 @@ config = dofile(CONFIG_FILE_PATH)
 ui = fu.UIManager
 disp = bmd.UIDispatcher(ui)
 local width,height = 600,350
- 
+
 win = disp:AddWindow({
   ID = 'MyWin',
   WindowTitle = 'My First Window',
   Geometry = { 100, 100, width, height },
   Spacing = 10,
- 
+
   ui:VGroup{
     ID = 'root',
-   
+
     -- Add your GUI elements here:
     ui:Label{ ID = 'Label1', Text = 'VOICEFOLDER_PATH(音声ファイルや字幕テキストが入ってるフォルダを指定)'},
     ui:LineEdit{ Text = config["VOICEFOLDER_PATH"], ID = "Line1" },
@@ -47,8 +47,6 @@ win = disp:AddWindow({
     ui:SpinBox{ Value = config["AUDIO_INDEX"], ID = "Spin1" },
     ui:Label{ ID = 'Label3', Text = 'VOICEBIN_NAME(メディアプールに本ツール用に追加されるBinの名前を指定)'},
     ui:LineEdit{ Text = config["VOICEBIN_NAME"], ID = "Line2" },
-    ui:Label{ ID = 'Label4', Text = 'FHT_PATH(デフォ値で大丈夫)'},
-    ui:LineEdit{ Text = config["FHT_PATH"], ID = "Line3" },
     ui:Label{ ID = 'Label5', Text = '-'},
     ui:Button { Text = "保存", ID = "ButtonA" },
     ui:Button { Text = "終了", ID = "ButtonB" }
@@ -78,7 +76,7 @@ end
 function win.On.MyWin.Close(ev)
     disp:ExitLoop()
 end
- 
+
 win:Show()
 disp:RunLoop()
 win:Hide()
