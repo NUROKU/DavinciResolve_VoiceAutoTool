@@ -10,14 +10,14 @@ https://github.com/NUROKU/DavinciResolve_VoiceAutoTool/releases
 
 -------------------------------------------------------------
 ## インストール方法
-1．VoiceAutoToolフォルダを↓のフォルダにそのまま置く<br>
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Scripts\Comp
+1. VoiceAutoToolフォルダを↓のフォルダにそのまま置く<br>
+C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Scripts\Comp
 
-2.　Modulesフォルダを↓のフォルダにそのまま置く<br>
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion
+2. Modulesフォルダを↓のフォルダにそのまま置く<br>
+C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion
 
-3. Configフォルダを↓のフォルダにそのまま置く<br>
-  C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion
+3.  Configフォルダを↓のフォルダにそのまま置く<br>
+C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion
 
 以上。<br>
 
