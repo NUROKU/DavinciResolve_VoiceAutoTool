@@ -7,8 +7,8 @@
 私のおすすめはShift + Xです<br>
 
 *Q.* Configが読み込めないって言われてる気がする<br>
-*A.* 下にあるConfigを消してOpenConfig実行してください、それで駄目なら多分バグです<br>
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config <br>
+*A.* 下に存在するAutoTool_Config.luaを削除してOpenConfig実行してください、それで駄目なら多分バグです<br>
+　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config\VoiceAutoTool_Config\AutoTool_Config.lua <br>
 
 *Q.* なんかうごかない<br>
 *A.* 多分バグです、作者ツイッターかGithubのIssueにバグ報告くれるとありがたいです<br>
@@ -24,7 +24,8 @@
 *A.* レンダー設定の「字幕の書き出し」がオフになってると思うので、オンにしてください<br>
 
 *Q.* 複数人の字幕をつけたい<br>
-*A.* (Davinci Resolveの仕様的に)無理っぽいです。<br>
+*A.* (Davinci Resolveの仕様的に)難しいです…<br>
+字幕タイムライン1,2にそれぞれ字幕を配置→2の方の字幕を全選択してスタイル等の変更→1へドラッグ...という妥協案もあります<br
 
 
 
