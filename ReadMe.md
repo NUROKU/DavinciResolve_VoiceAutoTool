@@ -58,6 +58,10 @@ Davinci Resolveで適当なプロジェクトを開いて、上のタブから<b
 ------------------------------------------------------------
 他のいろんな情報はdocフォルダ下にあります。
 
+Q＆A
+
+https://github.com/NUROKU/DavinciResolve_VoiceAutoTool/blob/main/docs/Q%EF%BC%86A.md
+
 連絡先
 
 配布ページ：https://github.com/NUROKU/DavinciResolve_VoiceAutoTool/releases<br>
