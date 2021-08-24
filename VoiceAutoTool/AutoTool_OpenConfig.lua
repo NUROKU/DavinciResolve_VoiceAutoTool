@@ -35,16 +35,16 @@ end
 ui = fu.UIManager
 disp = bmd.UIDispatcher(ui)
 local width,height = 600,350
- 
+
 win = disp:AddWindow({
   ID = 'MyWin',
   WindowTitle = 'My First Window',
   Geometry = { 100, 100, width, height },
   Spacing = 10,
- 
+
   ui:VGroup{
     ID = 'root',
-   
+
     -- Add your GUI elements here:
     ui:Label{ ID = 'Label1', Text = 'VOICEFOLDER_PATH(音声ファイルや字幕テキストが入ってるフォルダを指定)'},
     ui:LineEdit{ Text = config["VOICEFOLDER_PATH"], ID = "Line1" },
