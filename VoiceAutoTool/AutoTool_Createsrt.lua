@@ -21,6 +21,7 @@ CONFIG = dofile(CONFIG_FILE_PATH)
 VOICEFOLDER_PATH = CONFIG["VOICEFOLDER_PATH"]
 FHT_PATH = CONFIG["FHT_PATH"]
 AUDIO_INDEX = CONFIG["AUDIO_INDEX"]
+FILL_MODE = CONFIG["FILL_MODE"]
 
 UTF8toSJIS = require("UTF8toSJIS")
 FHT = io.open(FHT_PATH , "r")
@@ -64,18 +65,21 @@ local function getSubtitleTextFromFolder(soundFileName)
   return text
 end
 
-local function ConvertToTextFromClip(number,item)
+local function ConvertToTextFromClip(number,item,nextclip)
   -- number: 何番目のアイテムか、いらないと思ってたけど必要って事に気づいて後付け
+  -- nextclip: 次のクリップ、次のstartの位置を把握するために使う。nilの場合がある
   -- item: タイムライン上の何番目のサウンドか
 
-  local frameText = ""
-  local subtitleText = ""
+  
   local startTime = ConvertFrameToTime(item:GetStart())
   local endTime = ConvertFrameToTime(item:GetEnd())
+  if nextclip ~= nil then
+    endTime = ConvertFrameToTime(nextclip:GetStart())
+  end
 
   local frameText = string.format("%s --> %s", startTime,endTime)
   local subtitleText = getSubtitleTextFromFolder(item:GetName())
-  
+
   local ret =  string.format("%s\n%s\n%s\n\n", number,frameText,subtitleText)
   return ret
 end
@@ -89,9 +93,16 @@ local function TimelineToText(project,index)
   local timeline = project:GetCurrentTimeline()
   local items = timeline:GetItemsInTrack("audio", index)
   local text = ""
+  -- #items
+  for i = 1, #items do
+    local nextclip = nil
 
-  for i, item in ipairs( items ) do
-    text = text .. ConvertToTextFromClip(i, item)
+    -- FILL_MODEがONのときだけ次のクリップ取得するやつ
+    if i + 1 <= #items and FILL_MODE == true then
+      nextclip = items[i+1]
+    end
+
+    text = text .. ConvertToTextFromClip(i, items[i],nextclip)
   end
 
   return text

@@ -1,7 +1,8 @@
 tbl = { 
-VOICEFOLDER_PATH = [[C:\hogehoge]],
+VOICEFOLDER_PATH = [[ここにフォルダのパスを入力]],
 AUDIO_INDEX = 1,
 VOICEBIN_NAME = [[VoiceAutoTool]],
-FHT_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]],
+FILL_MODE = true,
+FHT_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]]
 } 
 return tbl

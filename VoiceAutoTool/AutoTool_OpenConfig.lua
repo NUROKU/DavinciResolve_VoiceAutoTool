@@ -13,20 +13,21 @@ CONFIG_FILE_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Con
 VOICEFOLDER_PATH=""
 AUDIO_INDEX = 1
 VOICEBIN_NAME="AutoTool"
+FILL_MODE = true
 FHT_PATH=[[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]]
+
+config = { 
+  VOICEFOLDER_PATH = [[C:\hogehoge]],
+  AUDIO_INDEX = 1,
+  VOICEBIN_NAME = [[VoiceAutoTool]],
+  FILL_MODE = true,
+  FHT_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]]
+}
 
 --Config設定
 config_isexist=io.open(CONFIG_FILE_PATH,"r")
-if config_isexist==nil then 
-  io.open(CONFIG_FILE_PATH,"w")
-  config = { 
-    VOICEFOLDER_PATH = [[C:\hogehoge]],
-    AUDIO_INDEX = 1,
-    VOICEBIN_NAME = [[VoiceAutoTool]],
-    FHT_PATH = [[C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules\Lua\Utf8Sjis.tbl]]
-  }
-  io.close()
-else
+io.close()
+if config_isexist~=nil then 
 --Configファイルから値読み込み、実際は外部の.Lua実行結果の返り値を持ってきてるだけ
   config = dofile(CONFIG_FILE_PATH)
 end
@@ -51,8 +52,8 @@ win = disp:AddWindow({
     ui:SpinBox{ Value = config["AUDIO_INDEX"], ID = "Spin1" },
     ui:Label{ ID = 'Label3', Text = 'VOICEBIN_NAME(メディアプールに本ツール用に追加されるBinの名前を指定)'},
     ui:LineEdit{ Text = config["VOICEBIN_NAME"], ID = "Line2" },
-    ui:Label{ ID = 'Label4', Text = 'FHT_PATH(デフォ値で大丈夫)'},
-    ui:LineEdit{ Text = config["FHT_PATH"], ID = "Line3" },
+    ui:Label{ ID = 'Label4', Text = 'FILL_MODE(字幕化する際に、字幕の長さを音声クリップの開始点→次の音声クリップの開始点にするモード)'},
+    ui:CheckBox{ID = 'MyCheckbox', Text = '',Checked = config["FILL_MODE"]},
     ui:Label{ ID = 'Label5', Text = '-'},
     ui:Button { Text = "保存", ID = "ButtonA" },
     ui:Button { Text = "終了", ID = "ButtonB" }
@@ -67,7 +68,8 @@ function win.On.ButtonA.Clicked(ev)
     f:write("VOICEFOLDER_PATH = [[".. itm['Line1'].Text .."]],\n")
     f:write("AUDIO_INDEX = ".. itm['Spin1'].Value ..",\n")
     f:write("VOICEBIN_NAME = [[" .. itm['Line2'].Text .. "]],\n")
-    f:write("FHT_PATH = [[".. itm['Line3'].Text .. "]],\n")
+    f:write("FILL_MODE = " .. tostring(itm.MyCheckbox.Checked) .. ",\n")
+    f:write("FHT_PATH = [[".. config["FHT_PATH"] .. "]]\n")
     f:write("} \n")
     f:write("return tbl")
     io.close() 
@@ -76,11 +78,11 @@ function win.On.ButtonA.Clicked(ev)
 end
 
 function win.On.ButtonB.Clicked(ev)
-    disp:ExitLoop()
+  disp:ExitLoop()
 end
 
 function win.On.MyWin.Close(ev)
-    disp:ExitLoop()
+  disp:ExitLoop()
 end
  
 win:Show()
