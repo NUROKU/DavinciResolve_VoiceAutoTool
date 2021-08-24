@@ -7,18 +7,14 @@
 私のおすすめはShift + Xです<br>
 
 *Q.* Configが読み込めないって言われてる気がする<br>
-*A.* 下に存在するAutoTool_Config.luaを削除してOpenConfig実行してください、それで駄目なら多分バグです<br>
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config\VoiceAutoTool_Config\AutoTool_Config.lua <br>
+*A.* 下にあるConfigを消してOpenConfig実行してください、それで駄目なら多分バグです<br>
+　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config <br>
 
 *Q.* なんかうごかない<br>
 *A.* 多分バグです、作者ツイッターかGithubのIssueにバグ報告くれるとありがたいです<br>
-「ワークスペース→コンソール」を開いた状態でスクリプトを動かすとエラーメッセージが出力されるはずなので、そのエラーメッセージをコピペして作者宛に連絡くれるととても嬉しいです。
+「ワークスペース→コンソール」を開いた状態でスクリプトを動かすとエラーメッセージが出力されるはずなので、そのエラーメッセージを作者宛に連絡くれるととても嬉しいです。
 
 ## MoveSound
-
-*Q.* 複数音声を引っ張ってくる時、順番がバラバラになる。<br>
-*A.* ファイル名で持ってくる順番を判断しています。(できれば更新順とかにしたかったけど厳しそう)<br>
-CevioAIやA.I.VOICEだとだとファイル名の最初に連番や日付を付けることができるので、申し訳ないですがそちらでの対応をお願いします。<br>
 
 ## CreateSrt
 *Q.* 字幕のテキストが「nil」になる<br>
@@ -28,8 +24,7 @@ CevioAIやA.I.VOICEだとだとファイル名の最初に連番や日付を付�
 *A.* レンダー設定の「字幕の書き出し」がオフになってると思うので、オンにしてください<br>
 
 *Q.* 複数人の字幕をつけたい<br>
-*A.* (Davinci Resolveの仕様的に)難しいです…<br>
-字幕タイムライン1,2にそれぞれ字幕を配置→2の方の字幕を全選択してスタイル等の変更→1へドラッグ...という妥協案もあります<br>
+*A.* (Davinci Resolveの仕様的に)無理っぽいです。<br>
 
 
 
