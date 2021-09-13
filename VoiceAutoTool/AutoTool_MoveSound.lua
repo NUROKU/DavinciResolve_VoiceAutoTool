@@ -40,28 +40,35 @@ local function GotoVBin(mediaPool)
   return voiceBin
 end
 
-
+local voiceBinClipsNameStorage = {}
 local function isNotExistVoiceInVBin(filePath,mediaPool)
   --VBinに該当のファイルが無かったらTrue(正常みたいな意味合い)を返す
   --filePath: 確認するファイル、絶対パスで来る想定
-
-  voiceBin = GotoVBin(mediaPool)
-  local voiceBinClips = voiceBin:GetClipList()
-  if #voiceBinClips == 0 then
-    return true
-  end
-
-  for voiceBinindex in pairs(voiceBinClips) do
-    local voiceBinClip = voiceBinClips[voiceBinindex]
-    if type(voiceBinClip) == "userdata" then 
-      local voiceBinClipPath = string.format("%s\\%s",VOICEFOLDER_PATH,voiceBinClip:GetName())
-
-      if voiceBinClipPath == filePath then
-        return false
+  
+  --1回目の処理でvoiceBinClipsNameStorageにvoiceBinに入ってるクリップ全部の名前をぶちこむ
+  if #voiceBinClipsNameStorage == 0 then
+    print("hoge")
+    voiceBin = GotoVBin(mediaPool)
+    voiceBinClips = voiceBin:GetClipList()
+    for voiceBinindex in pairs(voiceBinClips) do
+      if type(voiceBinClips[voiceBinindex]) == "userdata" then
+        voiceBinClipsNameStorage[#voiceBinClipsNameStorage+1] = voiceBinClips[voiceBinindex]:GetName()
       end
+    end
+    if #voiceBinClipsNameStorage == 0 then
+      return true
     end
   end
 
+  local voiceBinClipNames = voiceBinClipsNameStorage
+
+
+  for Nameindex in ipairs(voiceBinClipNames) do
+    local voiceBinClipPath = string.format("%s\\%s",VOICEFOLDER_PATH,voiceBinClipNames[Nameindex])
+    if voiceBinClipPath == filePath then
+      return false
+    end
+  end
   return true
 end
 
@@ -73,21 +80,26 @@ local function PullVoiceToVBin(mediaStorage,mediaPool)
   -- MediaStoregeのGetFileList(folderPath)で一覧もってくる
   local fileList = mediaStorage:GetFileList(VOICEFOLDER_PATH)
   local clips = {}
+
   for i = 1, #fileList do
 
-    --ここで音声フィルタと既に存在してるファイルを取得しない処理
+    --.wavのみ持ってくるようフィルタ、Luaだとfor文のcontinueが無いのでgotoで代用
     local isSoundFile = string.sub(fileList[i], -4) == ".wav"
-    local isAlreadyExist = isNotExistVoiceInVBin(fileList[i],mediaPool)
+    if isSoundFile == false then
+      goto continue
+    end
 
-    if isSoundFile and isAlreadyExist then
+    --既に存在してるファイルをimportしない処理
+    local isAlreadyExist = isNotExistVoiceInVBin(fileList[i],mediaPool)
+    if isAlreadyExist then
       local filetable = mediaPool:ImportMedia(fileList[i])
 
       --Luaはテーブルの添え字が1から始まるらしい、きにくわない
       local addingFile = filetable[1]
       table.insert(clips, addingFile)
     end
+    ::continue::
   end
-
   print("Voice ",#clips,"file Pulled")
   return clips
 end
@@ -131,10 +143,7 @@ local function MoveSoundUsecase()
   --local filteredclips = FilterClipsForPuttingTimeline(clips)
   print("[Debug]Sound put to timeline")
   PutVoiceToTimeline(project,mediaPool,clips)
-
   print("[Debug]MoveSound End---------------")
 end
 
 MoveSoundUsecase()
-
-
