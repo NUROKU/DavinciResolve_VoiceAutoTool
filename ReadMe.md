@@ -16,6 +16,9 @@ https://github.com/NUROKU/DavinciResolve_VoiceAutoTool/releases
 2.　Luaフォルダを↓のフォルダにそのまま置く<br>
 　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Modules
 
+3.　VoiceAutoTool_Configフォルダを↓のフォルダにそのまま置く<br>
+　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config
+
 以上。<br>
 
 Davinci Resolveで適当なプロジェクトを開いて、上のタブから<br>
