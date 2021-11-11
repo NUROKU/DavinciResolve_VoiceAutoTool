@@ -7,8 +7,9 @@
 私のおすすめはShift + Xです<br>
 
 *Q.* Configが読み込めないって言われてる気がする<br>
-*A.* 下にあるConfigを消してOpenConfig実行してください、それで駄目なら多分バグです<br>
-　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config <br>
+*A.* ダウンロードしたVoiceAutoToolに含まれているConfigフォルダをそのまま下に再配置してください<br>
+　C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion <br>
+  つまるところ「‪C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Config\VoiceAutoTool_Config\AutoTool_Config.lua」にアクセスできれば大丈夫なはずです。それ以外だと多分バグです
 
 *Q.* なんかうごかない<br>
 *A.* 多分バグです、作者ツイッターかGithubのIssueにバグ報告くれるとありがたいです<br>
