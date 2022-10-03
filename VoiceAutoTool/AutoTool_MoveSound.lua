@@ -47,7 +47,6 @@ local function isNotExistVoiceInVBin(filePath,mediaPool)
   
   --1回目の処理でvoiceBinClipsNameStorageにvoiceBinに入ってるクリップ全部の名前をぶちこむ
   if #voiceBinClipsNameStorage == 0 then
-    print("hoge")
     voiceBin = GotoVBin(mediaPool)
     voiceBinClips = voiceBin:GetClipList()
     for voiceBinindex in pairs(voiceBinClips) do
